@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loomina | Auth Portal</title>
+    <!-- React & Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #ffffff; color: #1e293b; overflow-x: hidden; }
+        
+        .card-shadow { box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.05); }
+        .input-ring:focus { border-color: #4f46e5; box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
+        
+        .animate-fade { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const Icon = ({ name, size = 20, className = "" }) => {
+            useEffect(() => { if (window.lucide) window.lucide.createIcons(); }, [name]);
+            return <i data-lucide={name} className={className} style={{ width: size, height: size }}></i>;
+        };
+
+        const App = () => {
+            const [mode, setMode] = useState('login'); // 'login', 'signup', 'forgot'
+            const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+            if (isLoggedIn) {
+                return (
+                    <div className="min-h-screen flex items-center justify-center bg-slate-50 animate-fade">
+                        <div className="text-center space-y-4">
+                            <div className="w-20 h-20 bg-indigo-600 rounded-3xl flex items-center justify-center text-white mx-auto shadow-xl shadow-indigo-200">
+                                <Icon name="check" size={40} />
+                            </div>
+                            <h1 className="text-3xl font-black uppercase tracking-tighter">Welcome to Loomina</h1>
+                            <button onClick={() => setIsLoggedIn(false)} className="text-indigo-600 font-bold hover:underline">Logout</button>
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="min-h-screen flex items-center justify-center p-6 bg-slate-50/50">
+                    <div className="w-full max-w-md animate-fade">
+                        
+                        {/* BRANDING */}
+                        <div className="text-center mb-8">
+                            {/* LOGO: <img src="logo.png" className="mx-auto mb-4 h-12" /> */}
+                            <div className="inline-flex p-3 bg-indigo-600 rounded-2xl text-white mb-4 shadow-lg shadow-indigo-100">
+                                <Icon name="graduation-cap" size={28} />
+                            </div>
+                            <h2 className="text-3xl font-black tracking-tighter uppercase text-slate-900">Loom<span className="text-indigo-600">ina</span></h2>
+                        </div>
+
+                        {/* AUTH CARD */}
+                        <div className="bg-white p-10 rounded-[2.5rem] card-shadow border border-slate-100">
+                            
+                            {/* TOGGLE TAB */}
+                            {mode !== 'forgot' && (
+                                <div className="flex bg-slate-100 p-1.5 rounded-2xl mb-8">
+                                    <button 
+                                        onClick={() => setMode('login')}
+                                        className={`flex-1 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${mode === 'login' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400'}`}
+                                    >
+                                        Sign In
+                                    </button>
+                                    <button 
+                                        onClick={() => setMode('signup')}
+                                        className={`flex-1 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${mode === 'signup' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400'}`}
+                                    >
+                                        Register
+                                    </button>
+                                </div>
+                            )}
+
+                            {/* FORGOT PASSWORD VIEW */}
+                            {mode === 'forgot' ? (
+                                <div className="space-y-6">
+                                    <div className="text-center">
+                                        <h3 className="text-xl font-black text-slate-900 uppercase tracking-tighter">Reset Password</h3>
+                                        <p className="text-slate-400 text-[11px] font-bold mt-1 uppercase tracking-wider">Enter email to receive recovery link</p>
+                                    </div>
+                                    <div className="space-y-4 pt-4">
+                                        <InputGroup label="Email" placeholder="teacher@loomina.com" type="email" icon="mail" />
+                                        <button className="w-full bg-indigo-600 text-white py-5 rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-indigo-100">Send Reset Link</button>
+                                        <button onClick={() => setMode('login')} className="w-full text-slate-400 font-bold text-xs uppercase tracking-widest hover:text-indigo-600 transition-colors">Back to Login</button>
+                                    </div>
+                                </div>
+                            ) : (
+                                /* LOGIN & SIGNUP FORMS */
+                                <form onSubmit={(e) => { e.preventDefault(); setIsLoggedIn(true); }} className="space-y-5">
+                                    {mode === 'signup' && (
+                                        <InputGroup label="Full Name" placeholder="Prof. Sharma" type="text" icon="user" />
+                                    )}
+                                    <InputGroup label="Work Email" placeholder="teacher@loomina.com" type="email" icon="mail" />
+                                    <InputGroup label="Password" placeholder="••••••••" type="password" icon="lock" />
+                                    
+                                    {mode === 'login' && (
+                                        <div className="flex justify-end">
+                                            <button 
+                                                type="button"
+                                                onClick={() => setMode('forgot')}
+                                                className="text-[10px] font-black text-indigo-600 uppercase tracking-widest hover:text-indigo-800"
+                                            >
+                                                Forgot Password?
+                                            </button>
+                                        </div>
+                                    )}
+
+                                    <button className="w-full bg-indigo-600 text-white py-5 rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-[0.98] mt-4">
+                                        {mode === 'login' ? 'Access Command Centre' : 'Create Teacher Account'}
+                                    </button>
+                                </form>
+                            )}
+                        </div>
+
+                        <p className="text-center text-slate-300 text-[9px] font-black uppercase tracking-[0.3em] mt-10">
+                            © 2026 Loomina Systems • Secured via SSL
+                        </p>
+                    </div>
+                </div>
+            );
+        };
+
+        const InputGroup = ({ label, placeholder, type, icon }) => (
+            <div className="space-y-1.5">
+                <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">{label}</label>
+                <div className="relative">
+                    <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300">
+                        <Icon name={icon} size={16} />
+                    </div>
+                    <input 
+                        type={type} 
+                        required
+                        placeholder={placeholder}
+                        className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-4 pl-12 pr-6 text-sm text-slate-900 placeholder:text-slate-300 outline-none transition-all input-ring font-medium"
+                    />
+                </div>
+            </div>
+        );
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
