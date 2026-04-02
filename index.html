@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduDesk Pro | Teacher Portal</title>
+    <title>Loomina | Teacher Portal</title>
     <!-- React & Babel for JSX -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -50,8 +50,7 @@
             const [selectedStudent, setSelectedStudent] = useState(null);
             const [wizardStep, setWizardStep] = useState(1);
             const [wizardData, setWizardData] = useState({ class: null, subject: null, chapters: [] });
-            
-            // Empty State initialized
+
             const [students, setStudents] = useState([]);
 
             const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -70,12 +69,11 @@
 
             const renderHome = () => (
                 <div className="animate-in">
-                    {/* Compact One-Line White Welcome Header */}
                     <div className="midnight-header text-white p-6 md:p-8 rounded-b-[2.5rem] shadow-2xl">
                         <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
                             <div className="flex items-center gap-3">
                                 <h1 className="text-xl md:text-2xl font-bold tracking-tight">
-                                    Good morning, <span className="text-white font-extrabold underline decoration-amber-400">Prof. Sharma</span> ✦ <span className="text-slate-400 font-normal text-sm ml-2 hidden lg:inline">AI Teaching Command Centre</span>
+                                    Good morning, <span className="text-white font-extrabold underline decoration-amber-400">Prof. Sharma</span> ✦ <span className="text-slate-400 font-normal text-sm ml-2 hidden lg:inline">Loomina Command Centre</span>
                                 </h1>
                             </div>
 
@@ -132,7 +130,7 @@
                         </div>
                     ) : (
                         <div className="bg-white rounded-[3rem] border border-slate-100 shadow-xl overflow-hidden">
-                            {/* Table logic here (same as before) */}
+                            {/* Table logic (hidden until students added) */}
                         </div>
                     )}
                 </div>
@@ -142,10 +140,17 @@
                 <div className="min-h-screen">
                     <nav className="h-20 midnight-header text-white flex items-center justify-between px-10 border-b border-white/5 sticky top-0 z-[60]">
                         <div className="flex items-center gap-4 cursor-pointer" onClick={() => setView('home')}>
+
+                            {/* LOGO SECTION START */}
+                            {/* If you have a logo image, replace the <div> below with:
+                                <img src="your-logo-url.png" className="h-10 w-auto" alt="Loomina Logo" />
+                            */}
                             <div className="bg-amber-400 p-2.5 rounded-2xl text-[#0f172a] shadow-xl">
                                 <Icon name="graduation-cap" size={24} />
                             </div>
-                            <span className="text-2xl font-black tracking-tighter uppercase">Edu<span className="text-amber-400">Desk</span></span>
+                            {/* LOGO SECTION END */}
+
+                            <span className="text-2xl font-black tracking-tighter uppercase">Loom<span className="text-amber-400">ina</span></span>
                         </div>
                         <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-xs font-black border border-white/10">PS</div>
                     </nav>
@@ -155,7 +160,7 @@
                         {view === 'payments' && renderPayments()}
                         {view === 'questions' && (
                             <div className="p-20 text-center animate-in">
-                                <h2 className="text-3xl font-black mb-4">Question Maker Wizard</h2>
+                                <h2 className="text-3xl font-black mb-4 uppercase tracking-tighter">Question Maker Wizard</h2>
                                 <p className="text-slate-400 mb-8">System ready to generate assessments.</p>
                                 <button onClick={() => setView('home')} className="px-10 py-3 bg-indigo-600 text-white rounded-xl font-bold">Back</button>
                             </div>
@@ -171,7 +176,7 @@
                     </main>
 
                     <footer className="py-12 bg-[#0f172a] text-slate-600 text-center text-[10px] font-bold uppercase tracking-[0.3em] border-t border-white/5">
-                        EduDesk Teacher Portal • AI Powered • © 2026
+                        Loomina Teacher Portal • AI Powered • © 2026
                     </footer>
                 </div>
             );
@@ -183,7 +188,7 @@
                 <div className={`w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform ${iconColor}`}>
                     <Icon name={icon} size={24} />
                 </div>
-                <h3 className="text-lg font-extrabold text-slate-900 mb-1 tracking-tight uppercase">{title}</h3>
+                <h3 className="text-lg font-extrabold text-slate-900 mb-1 tracking-tight uppercase group-hover:text-indigo-600 transition-colors">{title}</h3>
                 <p className="text-slate-400 text-[11px] font-bold leading-relaxed">{desc}</p>
             </div>
         );
