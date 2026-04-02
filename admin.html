@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loomina | Super Admin Portal</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #ffffff; color: #1e293b; }
+        .admin-card { background: white; border: 1px solid #f1f5f9; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05); }
+        .btn-primary { background: #4f46e5; color: white; transition: all 0.2s; }
+        .btn-primary:hover { background: #4338ca; transform: translateY(-2px); }
+        .input-minimal { border-bottom: 2px solid #f1f5f9; transition: all 0.3s; }
+        .input-minimal:focus { border-bottom-color: #4f46e5; outline: none; background: #f8fafc; }
+        .animate-pop { animation: pop 0.3s ease-out; }
+        @keyframes pop { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const Icon = ({ name, size = 18, className = "" }) => {
+            useEffect(() => { if (window.lucide) window.lucide.createIcons(); }, [name]);
+            return <i data-lucide={name} className={className} style={{ width: size, height: size }}></i>;
+        };
+
+        const App = () => {
+            const [students, setStudents] = useState([]); // EMPTY START
+            const [announcement, setAnnouncement] = useState("");
+            const [batchPrices, setBatchPrices] = useState(Array(10).fill(1500)); // Classes 1-10 Default
+
+            const addStudent = () => {
+                const newStudent = {
+                    id: `LMN-${Math.floor(1000 + Math.random() * 9000)}`,
+                    name: "New Student",
+                    class: 10,
+                    mobile: "00000 00000",
+                    status: "Active"
+                };
+                setStudents([...students, newStudent]);
+            };
+
+            const updateStudent = (idx, field, val) => {
+                const updated = [...students];
+                updated[idx][field] = val;
+                setStudents(updated);
+            };
+
+            const deleteStudent = (idx) => {
+                if(confirm("Delete this user permanently?")) {
+                    setStudents(students.filter((_, i) => i !== idx));
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-slate-50/50 flex flex-col">
+                    {/* TOP NAV */}
+                    <nav className="h-20 bg-white border-b border-slate-100 flex items-center justify-between px-10 sticky top-0 z-50">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-100">
+                                <Icon name="shield" size={20} />
+                            </div>
+                            <div>
+                                <h1 className="text-xl font-black tracking-tighter uppercase leading-none">Loomina <span className="text-indigo-600">Admin</span></h1>
+                                <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Superuser Control Panel</p>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-4">
+                            <button className="p-2 text-slate-400 hover:text-indigo-600 transition-colors"><Icon name="bell" /></button>
+                            <div className="h-10 w-10 rounded-2xl bg-slate-100 border-2 border-white shadow-sm flex items-center justify-center font-black text-slate-400 text-xs">AD</div>
+                        </div>
+                    </nav>
+
+                    <main className="p-10 max-w-7xl mx-auto w-full space-y-10">
+                        
+                        {/* GLOBAL ANNOUNCEMENT */}
+                        <div className="admin-card p-8 rounded-[2.5rem] bg-indigo-600 text-white relative overflow-hidden">
+                            <div className="relative z-10 space-y-4">
+                                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest opacity-80">
+                                    <Icon name="megaphone" size={14} /> System Broadcast
+                                </div>
+                                <div className="flex gap-4">
+                                    <input 
+                                        type="text" 
+                                        value={announcement}
+                                        onChange={(e) => setAnnouncement(e.target.value)}
+                                        placeholder="Type a message to all teachers/students..."
+                                        className="flex-1 bg-white/10 border border-white/20 rounded-2xl px-6 py-4 outline-none placeholder:text-white/40 font-bold"
+                                    />
+                                    <button className="bg-white text-indigo-600 px-8 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl">Push Live</button>
+                                </div>
+                            </div>
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-20 -mt-20"></div>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                            
+                            {/* CLASS FEE MASTER */}
+                            <div className="space-y-6">
+                                <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest ml-2">Fee Management</h3>
+                                <div className="admin-card p-8 rounded-[3rem] space-y-6">
+                                    <div className="max-h-[400px] overflow-y-auto custom-scrollbar pr-2 space-y-4">
+                                        {batchPrices.map((p, i) => (
+                                            <div key={i} className="flex items-center justify-between group">
+                                                <span className="text-xs font-black text-slate-500">CLASS {i+1}</span>
+                                                <div className="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl group-hover:bg-indigo-50 transition-colors">
+                                                    <span className="text-[10px] font-bold text-slate-300">Rs.</span>
+                                                    <input 
+                                                        type="number" 
+                                                        value={p}
+                                                        onChange={(e) => {
+                                                            const newPrices = [...batchPrices];
+                                                            newPrices[i] = e.target.value;
+                                                            setBatchPrices(newPrices);
+                                                        }}
+                                                        className="w-20 bg-transparent text-right font-black text-indigo-600 outline-none"
+                                                    />
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <button className="w-full py-5 bg-slate-900 text-white rounded-[2rem] font-black text-[10px] uppercase tracking-widest hover:bg-indigo-600 shadow-xl transition-all">Save All Prices</button>
+                                </div>
+                            </div>
+
+                            {/* USER DATABASE CONTROL */}
+                            <div className="lg:col-span-2 space-y-6">
+                                <div className="flex justify-between items-center px-2">
+                                    <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">Master User Database</h3>
+                                    <button onClick={addStudent} className="flex items-center gap-2 text-xs font-black text-indigo-600 uppercase tracking-widest hover:underline">
+                                        <Icon name="user-plus" size={16} /> New Student
+                                    </button>
+                                </div>
+
+                                <div className="admin-card rounded-[3rem] overflow-hidden">
+                                    {students.length === 0 ? (
+                                        <div className="p-20 text-center space-y-4">
+                                            <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto text-slate-200">
+                                                <Icon name="database" size={40} />
+                                            </div>
+                                            <p className="text-slate-400 font-bold uppercase text-[10px] tracking-widest">Database is empty</p>
+                                        </div>
+                                    ) : (
+                                        <table className="w-full text-left border-collapse">
+                                            <thead className="bg-slate-50/50 border-b">
+                                                <tr>
+                                                    <th className="p-6 text-[9px] font-black text-slate-400 uppercase tracking-widest">Identity ID</th>
+                                                    <th className="p-6 text-[9px] font-black text-slate-400 uppercase tracking-widest">User Details</th>
+                                                    <th className="p-6 text-[9px] font-black text-slate-400 uppercase tracking-widest">Status</th>
+                                                    <th className="p-6 text-[9px] font-black text-slate-400 uppercase tracking-widest text-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-slate-50">
+                                                {students.map((s, idx) => (
+                                                    <tr key={idx} className="animate-pop hover:bg-slate-50/30 transition-all">
+                                                        <td className="p-6">
+                                                            <input 
+                                                                className="input-minimal font-black text-indigo-600 w-full bg-transparent text-sm"
+                                                                value={s.id}
+                                                                onChange={(e) => updateStudent(idx, 'id', e.target.value)}
+                                                            />
+                                                        </td>
+                                                        <td className="p-6">
+                                                            <input 
+                                                                className="input-minimal font-bold text-slate-800 w-full bg-transparent text-sm mb-1"
+                                                                value={s.name}
+                                                                onChange={(e) => updateStudent(idx, 'name', e.target.value)}
+                                                            />
+                                                            <input 
+                                                                className="text-[10px] text-slate-400 font-bold bg-transparent outline-none w-full"
+                                                                value={s.mobile}
+                                                                onChange={(e) => updateStudent(idx, 'mobile', e.target.value)}
+                                                            />
+                                                        </td>
+                                                        <td className="p-6">
+                                                            <select 
+                                                                value={s.status}
+                                                                onChange={(e) => updateStudent(idx, 'status', e.target.value)}
+                                                                className={`text-[10px] font-black uppercase tracking-widest outline-none bg-transparent ${s.status === 'Active' ? 'text-emerald-500' : 'text-rose-400'}`}
+                                                            >
+                                                                <option>Active</option>
+                                                                <option>Blocked</option>
+                                                            </select>
+                                                        </td>
+                                                        <td className="p-6 text-center">
+                                                            <button 
+                                                                onClick={() => deleteStudent(idx)}
+                                                                className="w-10 h-10 rounded-xl hover:bg-rose-50 text-slate-300 hover:text-rose-500 transition-all flex items-center justify-center mx-auto"
+                                                            >
+                                                                <Icon name="trash-2" size={18} />
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+
+                    <footer className="mt-auto py-10 text-center text-slate-300 text-[10px] font-black uppercase tracking-[0.4em]">
+                        Loomina Core Control • Secured Encryption Active
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
