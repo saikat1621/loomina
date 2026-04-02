@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loomina | The Future of Teaching</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+        :root { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background: #ffffff;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Animated Mesh Background */
+        .mesh-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-color: #ffffff;
+            background-image:
+                radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.08) 0, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(251, 191, 36, 0.05) 0, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(99, 102, 241, 0.05) 0, transparent 50%);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.03);
+        }
+
+        .hero-text {
+            background: linear-gradient(to bottom right, #1e293b 30%, #4f46e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .float-anim {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .reveal { animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes reveal {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mesh-bg"></div>
+
+    <!-- Navigation -->
+    <nav class="flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
+        <div class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-indigo-200">
+                <i data-lucide="graduation-cap" size={24}></i>
+            </div>
+            <span class="text-2xl font-black tracking-tighter uppercase text-slate-900">Loom<span className="text-indigo-600">ina</span></span>
+        </div>
+        <div class="hidden md:flex items-center gap-8 text-sm font-bold text-slate-500 uppercase tracking-widest">
+            <a href="#features" class="hover:text-indigo-600 transition-colors">Features</a>
+            <a href="#" class="hover:text-indigo-600 transition-colors">About</a>
+            <button class="px-6 py-2 bg-slate-900 text-white rounded-xl hover:bg-indigo-600 transition-all">Get Started</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-20 pb-32 px-6">
+        <div class="max-w-4xl mx-auto text-center space-y-10 reveal">
+            <div class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 border border-indigo-100 rounded-full text-indigo-600 text-[10px] font-black uppercase tracking-widest mb-4">
+                <span class="w-2 h-2 bg-indigo-600 rounded-full animate-pulse"></span> v2.0 Teacher Command Centre
+            </div>
+
+            <h1 class="text-6xl md:text-8xl font-black tracking-tighter hero-text leading-[0.9]">
+                Teaching Elevated <br/> by <span class="italic font-serif font-light">Intelligence.</span>
+            </h1>
+
+            <p class="text-slate-500 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
+                Loomina is a professional ecosystem designed for educators to automate question papers, manage lesson notes, and track student finances in one seamless interface.
+            </p>
+
+            <!-- Middle Options -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
+                <button class="group w-full sm:w-auto px-10 py-5 bg-indigo-600 text-white rounded-[2rem] font-black text-sm uppercase tracking-widest shadow-2xl shadow-indigo-300 hover:bg-indigo-700 transition-all active:scale-95 flex items-center justify-center gap-3">
+                    Sign in to Portal <i data-lucide="arrow-right" class="group-hover:translate-x-1 transition-transform"></i>
+                </button>
+                <button class="w-full sm:w-auto px-10 py-5 bg-white text-slate-900 border border-slate-200 rounded-[2rem] font-black text-sm uppercase tracking-widest hover:bg-slate-50 transition-all shadow-sm">
+                    Create Account
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Explain Business Section -->
+    <section id="features" class="max-w-7xl mx-auto px-8 py-20 border-t border-slate-100">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+
+            <!-- Feature 1 -->
+            <div class="glass-card p-10 rounded-[3rem] space-y-6 hover:-translate-y-4 transition-all duration-500 group">
+                <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                    <i data-lucide="file-text"></i>
+                </div>
+                <h3 class="text-xl font-black uppercase tracking-tighter text-slate-900">AI Question <br/>Builder</h3>
+                <p class="text-slate-400 text-sm font-medium leading-relaxed">Generate standardized question papers for Grades 1-10 in seconds using our logical wizard.</p>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="glass-card p-10 rounded-[3rem] space-y-6 hover:-translate-y-4 transition-all duration-500 group">
+                <div class="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                    <i data-lucide="book-open"></i>
+                </div>
+                <h3 class="text-xl font-black uppercase tracking-tighter text-slate-900">Smart Notes <br/>Engine</h3>
+                <p class="text-slate-400 text-sm font-medium leading-relaxed">Create and organize study materials with a professional editor designed for clarity.</p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="glass-card p-10 rounded-[3rem] space-y-6 hover:-translate-y-4 transition-all duration-500 group">
+                <div class="w-14 h-14 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                    <i data-lucide="calendar"></i>
+                </div>
+                <h3 class="text-xl font-black uppercase tracking-tighter text-slate-900">Dynamic <br/>Schedule</h3>
+                <p class="text-slate-400 text-sm font-medium leading-relaxed">Stay ahead with an automated class calendar that tracks running and upcoming sessions.</p>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="glass-card p-10 rounded-[3rem] space-y-6 hover:-translate-y-4 transition-all duration-500 group">
+                <div class="w-14 h-14 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center group-hover:bg-rose-600 group-hover:text-white transition-colors">
+                    <i data-lucide="wallet"></i>
+                </div>
+                <h3 class="text-xl font-black uppercase tracking-tighter text-slate-900">Finance <br/>Ledger</h3>
+                <p class="text-slate-400 text-sm font-medium leading-relaxed">Track student fees month-by-month with precise paid, pending, and advance calculations.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-20 text-center border-t border-slate-50 bg-slate-50/30">
+        <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.5em] mb-4">Crafted for Excellence</p>
+        <h4 class="text-xl font-black text-slate-900 uppercase tracking-tighter">Loom<span class="text-indigo-600">ina</span> Systems</h4>
+        <p class="text-slate-400 text-xs mt-2">© 2026 All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
